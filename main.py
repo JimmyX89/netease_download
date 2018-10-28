@@ -108,10 +108,10 @@ class encrypyed():
         return binascii.hexlify(os.urandom(size))[:16]
 
 class neteaseMusic(object):
-    def __init__(self):
+    def __init__(self, url):
         self.song_infos = []
         # 默认当前目录，可以通过参数指定
-        self.dir_ = args.dir or os.getcwd()
+        self.dir_ = url or args.dir or os.getcwd()  # 下载dir
         self.ep = encrypyed()
         self.timeout = 60
 
@@ -427,8 +427,8 @@ class neteaseMusic(object):
         self.download()
         print('结束')
 
-def main(url):
-    x = neteaseMusic()
+def main(url, dir = ''):  # 下载dir
+    x = neteaseMusic(dir)  # 下载dir
     x.url_parser(url)
 
 if __name__ == '__main__':
@@ -446,5 +446,7 @@ if __name__ == '__main__':
 #     args = p.parse_args(args=["http://music.163.com/#/artist?id=905705"])
 #     args = p.parse_args(args=["http://music.163.com/#/djradio?id=526696677"])
 #     args = p.parse_args(args=["http://music.163.com/#/program?id=1369232209"])
-    args = p.parse_args()
-    main(args.url)
+    url = input('Please enter url:\n')
+    out_dir = input('Please enter saving dir:\n')
+    args = p.parse_args([url])
+    main(args.url, out_dir)
